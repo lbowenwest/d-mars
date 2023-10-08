@@ -3,16 +3,32 @@
 import {readFileSync} from "fs";
 import {Command} from "commander";
 import {chunk} from "lodash";
-import {processInstruction} from "./mars";
+import {inBounds, processInstruction} from "./mars";
 import {Direction, Instruction, InstructionSet, Point, Result, World} from "./types";
+
+export function parseWorld(worldString: string): [number, number] {
+    if (!/^[0-9]+ [0-9]+$/.test(worldString)) {
+        throw new Error("invalid world size")
+    }
+    const coords = worldString.split(" ")
+    const world: [number, number] = [parseInt(coords[0]), parseInt(coords[1])]
+    if (!inBounds(world, [50, 50])) {
+        throw new Error("world size exceeds limit")
+    }
+    return world
+}
 
 export function parseStart(startString: string): Point {
     if (!/^[0-9]+ [0-9]+ [NESW]/.test(startString)) {
         throw new Error("invalid start position")
     }
     const startSplit = startString.split(" ")
+    const position: [number, number] = [parseInt(startSplit[0]), parseInt(startSplit[1])]
+    if (!inBounds(position, [50, 50])) {
+        throw new Error("position exceeds limit")
+    }
     return {
-        position: [parseInt(startSplit[0]), parseInt(startSplit[1])],
+        position,
         direction: startSplit[2] as Direction
     }
 }
@@ -24,9 +40,8 @@ export function parseInstructions(instructionString: string): Instruction[] {
     return instructionString.split("") as Instruction[]
 }
 
-export function parseFile(filename: string): { world: World, instructions: InstructionSet[] } {
-    const contents = readFileSync(filename, "utf-8").split("\n");
-    const worldSize = contents.at(0)?.split(" ").map(size => parseInt(size));
+export function parseFile(contents: string[]): { world: World, instructions: InstructionSet[] } {
+    const worldSize = parseWorld(contents.at(0) || "")
     if (worldSize?.length != 2) {
         console.error("worldSize", worldSize)
         throw new Error("invalid world size");
@@ -36,8 +51,14 @@ export function parseFile(filename: string): { world: World, instructions: Instr
             console.error("instructions", i)
             throw new Error("invalid instruction set");
         }
+        const start = parseStart(i[0])
+        if (!inBounds(start.position, worldSize)) {
+            // spec doesn't really say if this can happen or not, might want to allow this and report as lost
+            // before executing first instruction
+            throw new Error("start position exceeds world size")
+        }
         return {
-            start: parseStart(i[0]),
+            start,
             instructions: parseInstructions(i[1])
         }
     })
@@ -45,7 +66,8 @@ export function parseFile(filename: string): { world: World, instructions: Instr
 }
 
 export function execute(filename: string) {
-    let {world, instructions} = parseFile(filename);
+    const contents = readFileSync(filename, "utf-8").split("\n");
+    let {world, instructions} = parseFile(contents);
     const results = instructions.map((instruction): Result => processInstruction(world, instruction));
     results.forEach(({point, lost}) => {
         console.log(point.position[0], point.position[1], point.direction, lost ? "LOST" : "")

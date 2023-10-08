@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "npx tsc",
-    "main": "npm run build && npx mars tests/sample.txt"
+    "main": "npm run build && node dist/index.js tests/sample.txt"
   },
   "bin": {
     "mars": "./dist/index.js"

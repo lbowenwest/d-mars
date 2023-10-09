@@ -7,8 +7,5 @@
     "outDir": "./dist",
     "strict": true
   },
-  "exclude": [
-    "tests",
-    "node_modules"
-  ]
+  "exclude": ["tests", "node_modules"]
 }

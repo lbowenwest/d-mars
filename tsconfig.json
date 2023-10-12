@@ -1,11 +1,11 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2020",
-    "sourceMap": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "strict": true
-  },
-  "exclude": ["tests", "node_modules"]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2020",
+        "sourceMap": true,
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "strict": true
+    },
+    "exclude": ["tests", "node_modules"]
 }

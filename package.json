@@ -1,32 +1,32 @@
 {
-  "name": "daphne-mars",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./dist/index.js",
-  "scripts": {
-    "test": "jest",
-    "build": "npx tsc",
-    "main": "npm run build && node dist/index.js tests/sample.txt"
-  },
-  "bin": {
-    "mars": "./dist/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@types/lodash": "^4.14.199",
-    "commander": "^11.0.0",
-    "lodash": "^4.17.21"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.5",
-    "@types/node": "^20.8.3",
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.1",
-    "prettier": "^3.0.3",
-    "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
-  }
+    "name": "daphne-mars",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/index.js",
+    "scripts": {
+        "test": "jest",
+        "build": "npx tsc",
+        "main": "npm run build && node dist/index.js tests/sample.txt"
+    },
+    "bin": {
+        "mars": "./dist/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/lodash": "^4.14.199",
+        "commander": "^11.0.0",
+        "lodash": "^4.17.21"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.5",
+        "@types/node": "^20.8.3",
+        "jest": "^29.7.0",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.3",
+        "ts-jest": "^29.1.1",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.2.2"
+    }
 }
